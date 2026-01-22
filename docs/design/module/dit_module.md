@@ -483,6 +483,8 @@ def get_attn_backend(head_size: int) -> type[AttentionBackend]:
 
 - **SpargeAttention**: Requires `spas_sage_attn` package (from THU-ML GitHub)
 
+  - Environment variable `SPARGE_ATTN_TOPK` to set topk (default: 0.5)
+
 - **AscendAttention**: Only available on Ascend NPU hardware
 
 #### Attention Backend Registry

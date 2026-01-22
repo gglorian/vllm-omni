@@ -17,16 +17,17 @@ from vllm.model_executor.layers.layernorm import RMSNorm
 from vllm.model_executor.layers.linear import QKVParallelLinear, ReplicatedLinear
 from vllm.model_executor.model_loader.weight_utils import default_weight_loader
 
-from vllm_omni.diffusion import envs
-from vllm_omni.diffusion.attention.backends.flash_attn import FlashAttentionBackend
+try:
+    from vllm_omni.diffusion.attention.backends.flash_attn import FlashAttentionBackend
+
+    HAS_FLASH_ATTN = True
+except ImportError:
+    HAS_FLASH_ATTN = False
+
 from vllm_omni.diffusion.attention.backends.sdpa import SDPABackend
 from vllm_omni.diffusion.attention.layer import Attention
 
 logger = init_logger(__name__)
-
-env_info = envs.PACKAGES_CHECKER.get_packages_info()
-
-HAS_FLASH_ATTN = env_info["has_flash_attn"]
 
 
 def apply_rotary_emb_wan(
