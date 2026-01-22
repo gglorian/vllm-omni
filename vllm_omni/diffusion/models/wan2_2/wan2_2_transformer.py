@@ -348,7 +348,7 @@ class WanCrossAttention(nn.Module):
         # TODO Add this to attention configuration when available
         attn_backend = None
         if os.environ.get("DIFFUSION_ATTENTION_BACKEND") == "SPARGE_ATTN":
-            attn_backend = FlashAttentionBackend if HAS_FLASH_ATTN else SDPABackend 
+            attn_backend = FlashAttentionBackend if HAS_FLASH_ATTN else SDPABackend
 
         # Unified attention layer
         self.attn = Attention(
