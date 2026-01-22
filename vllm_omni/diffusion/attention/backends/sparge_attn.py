@@ -1,9 +1,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # SPDX-FileCopyrightText: Copyright contributors to the vLLM project
 
+import os
+
 import torch
 from vllm.logger import init_logger
-import os
 
 from vllm_omni.diffusion.attention.backends.abstract import (
     AttentionBackend,
@@ -21,6 +22,7 @@ except ImportError:
         " by pip install git+https://github.com/thu-ml/SpargeAttn.git@bfd980b781784c04ad6a53e7ee657c0645d99171"
     )
     raise ImportError
+
 
 class SpargeAttentionBackend(AttentionBackend):
     accept_output_buffer: bool = True

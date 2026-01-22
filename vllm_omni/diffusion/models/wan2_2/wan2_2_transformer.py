@@ -2,10 +2,9 @@
 # SPDX-FileCopyrightText: Copyright contributors to the vLLM project
 
 import math
+import os
 from collections.abc import Iterable
 from typing import Any
-
-import os
 
 import torch
 import torch.nn as nn
@@ -19,15 +18,16 @@ from vllm.model_executor.layers.linear import QKVParallelLinear, ReplicatedLinea
 from vllm.model_executor.model_loader.weight_utils import default_weight_loader
 
 from vllm_omni.diffusion import envs
-from vllm_omni.diffusion.attention.layer import Attention
-from vllm_omni.diffusion.attention.backends.sdpa import SDPABackend
 from vllm_omni.diffusion.attention.backends.flash_attn import FlashAttentionBackend
+from vllm_omni.diffusion.attention.backends.sdpa import SDPABackend
+from vllm_omni.diffusion.attention.layer import Attention
 
 logger = init_logger(__name__)
 
 env_info = envs.PACKAGES_CHECKER.get_packages_info()
 
 HAS_FLASH_ATTN = env_info["has_flash_attn"]
+
 
 def apply_rotary_emb_wan(
     hidden_states: torch.Tensor,
@@ -356,7 +356,7 @@ class WanCrossAttention(nn.Module):
             head_size=head_dim,
             softmax_scale=1.0 / (head_dim**0.5),
             causal=False,
-            attn_backend=attn_backend
+            attn_backend=attn_backend,
         )
 
     def forward(
